@@ -15,5 +15,10 @@ test:
   database: tracker_test
 
 production:
-  <<: *default
-  database: tracker_production
+  primary:
+    <<: *default
+    database: tracker_production
+
+  cable:
+    <<: *default
+    database: tracker_production
