@@ -43,7 +43,6 @@ Rails.application.configure do
   # === 💡 サブディレクトリ公開設定 ===
   config.relative_url_root = "/tracker"
   config.action_controller.relative_url_root = "/tracker"
-
   # === 💡 アセットの公開パス変更（/tracker/assets に対応）===
   config.assets.prefix = "/tracker/assets"
 end
