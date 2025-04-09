@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "index/index"
   # サブディレクトリ'/tracker'以下のルーティングを定義する
   scope '/tracker' do
     # /tracker でトップページとして index#index を表示する
