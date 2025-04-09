@@ -70,4 +70,7 @@ Rails.application.configure do
 
   # サブディレクトリ('/tracker')で運用するための設定
   config.relative_url_root = '/tracker'
+
+  config.assets.prefix = "/tracker/assets"
+
 end
