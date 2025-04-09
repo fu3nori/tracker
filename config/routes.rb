@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   scope '/tracker' do
     # /tracker でトップページとして index#index を表示する
     root 'index#index'
-
+    get '/', to: 'index#index'
     # ここに /tracker 配下のその他のルートを記述（例：resources :posts など）
   end
 
