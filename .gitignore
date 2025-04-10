@@ -32,3 +32,8 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+
+/public/assets/*
+/public/tracker/assets/*
+!/public/tracker/assets/.keep
