@@ -48,8 +48,8 @@
 .vscode/
 
 # === 🚫 public/assets：アセットプリコンパイル後 ===
-
-
+/public/css/
+!/public/css/custom.css
 /public/packs
 /public/packs-test
 /public/packs-manifest.json
