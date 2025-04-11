@@ -1,0 +1,29 @@
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px;
+    margin: 1em;
+}
+
+h1 {
+    font-size: 18px;
+    border-left: 5px solid green;
+    border-bottom: 5px solid green;
+    padding-left: 10px;
+    padding-bottom: 5px;
+}
+
+h2{
+    font-size: 16px;
+    border-left: 3px solid green;
+    border-bottom: 3px solid green;
+    padding-left: 10px;
+    padding-bottom: 5px;
+}
+
+h3 {
+    font-size: 14px;
+    border-left: 2px solid green;
+    border-bottom: 1px solid green;
+    padding-left: 10px;
+    padding-bottom: 5px;
+}
