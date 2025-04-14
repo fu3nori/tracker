@@ -33,6 +33,17 @@ Rails.application.configure do
   # --- メール設定（必要なら使ってくれ）---
   config.action_mailer.default_url_options = { host: "hf-avenue.biz" }
 
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    user_name: 'apikey',
+    password: ENV['SENDGRID_API_KEY'],
+    domain: 'hf-avenue.biz',
+    address: 'smtp.sendgrid.net',
+    port: 587,
+    authentication: :plain,
+    enable_starttls_auto: true
+  }
+
   # --- I18n ---
   config.i18n.fallbacks = true
 

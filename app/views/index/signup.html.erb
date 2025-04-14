@@ -1,0 +1,81 @@
+<h1>Tracker for creator|Signup</h1>
+<%= render "header" %>
+<%= form_with model: @user, url: create_user_path, local: true do |f| %>
+  <% if @user.errors.any? %>
+    <div style="color: red;">
+      <h3>入力エラー:</h3>
+      <ul>
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div style="display: flex; flex-direction: column; gap: 10px;">
+    <div style="display: flex;">
+      <label style="width:200px;">ユーザーemail</label>
+      <%= f.email_field :email %>
+      <span style="margin-left: 10px;">※ログインに使用します</span>
+    </div>
+
+    <div style="display: flex;">
+      <label style="width: 200px;">ペンネーム</label>
+      <%= f.text_field :pen_name %>
+      <span style="margin-left: 10px;">※画面表示名に使用されます</span>
+    </div>
+
+
+    <div style="display: flex;">
+      <label style="width: 200px;">パスワード</label>
+      <%= f.password_field :password %>
+      <span style="margin-left: 10px;">※4〜8文字、半角英数記号</span>
+    </div>
+
+    <div style="display: flex;">
+      <label style="width: 200px;">パスワード確認</label>
+      <%= f.password_field :password_confirmation %>
+    </div>
+
+    <div style="border: 2px solid red; padding: 10px;">
+      <p style="color: red;">
+        以下の4つは有償案件を発注または受注する人は書いてください（後から記入も可能です）
+      </p>
+
+      <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
+        <%= f.label :bank, "振込先（有償案件のみ）", style: "width: 200px;" %>
+        <%= f.text_area :bank, rows: 5, class: "form-control", style: "width: 40%;" %>
+        <span style="margin-left: 10px;">※任意</span>
+      </div>
+
+
+      <div style="display: flex; align-items: center; margin-bottom: 10px;">
+        <label style="width: 200px;">郵便番号（有償案件のみ）</label>
+        <%= f.text_field :zip_code %>
+        <span style="margin-left: 10px;">※任意</span>
+      </div>
+
+      <div style="display: flex; align-items: center; margin-bottom: 10px;">
+        <label style="width: 200px;">住所（有償案件のみ）</label>
+        <%= f.text_field :addres %>
+        <span style="margin-left: 10px;">※任意</span>
+      </div>
+
+      <div style="display: flex; align-items: center; margin-bottom: 10px;">
+        <label style="width: 200px;">本名（有償案件のみ）</label>
+        <%= f.text_field :real_name %>
+        <span style="margin-left: 10px;">※任意</span>
+      </div>
+
+  </div>
+
+  <br>
+  <%= f.submit "登録", class: "btn btn-success" %>
+<% end %>
+
+
+<style>
+    input {
+        width: 250px;
+    }
+</style>

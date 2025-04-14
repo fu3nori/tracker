@@ -1,0 +1,27 @@
+<h1>Tracker for creator|Login</h1>
+<%= render "header" %>
+<!-- app/views/index/login.html.erb -->
+
+
+<% if flash[:alert] %>
+  <div style="color: red; margin-bottom: 1em;"><%= flash[:alert] %></div>
+<% end %>
+
+<%= form_with model: @user, url: login_path, local: true do |f| %>
+  <div style="margin-bottom: 1em;">
+    <%= f.label :email, "メールアドレス" %><br>
+    <%= f.email_field :email, class: "form-control", required: true %>
+  </div>
+
+  <div style="margin-bottom: 1em;">
+    <%= f.label :password, "パスワード" %><br>
+    <%= f.password_field :password, class: "form-control", required: true %>
+  </div>
+
+  <%= f.submit "ログイン", class: "btn btn-primary" %>
+<% end %>
+
+<p style="margin-top: 1em;">
+  <%= link_to "パスワードを忘れた方はこちら", lost_password_path %>
+</p>
+
