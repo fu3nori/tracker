@@ -41,15 +41,16 @@ gem "thruster", require: false
 # gem "image_processing", "~> 1.2"
 
 group :development, :test do
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+  # debug gem は開発とテストだけで読み込み、require は手動で必要なときにだけ行う
+  gem "debug", platforms: %i[ mri windows ] # ← ← ← ← ← ←  ここを修正！
 
-  # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
+  # Static analysis for security vulnerabilities
   gem "brakeman", require: false
 
-  # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
+  # Omakase Ruby styling
   gem "rubocop-rails-omakase", require: false
 end
+
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
