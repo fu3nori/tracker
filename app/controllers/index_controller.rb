@@ -54,25 +54,28 @@ class IndexController < ApplicationController
   def send_reset_token
     puts "[send_reset_token] invoked!"
     Rails.logger.info "[send_reset_token] invoked!"
-    p params
+    Rails.logger.info "[send_reset_token] params: #{params.inspect}"
 
     user = User.find_by(email: params[:email])
+
     if user
-      token = rand.to_s[2..7]
+      token = rand.to_s[2..7] # 6桁のランダム数字
       if user.update(one_time_token: token)
+        Rails.logger.info "[send_reset_token] token updated for user #{user.email}: #{token}"
         UserMailer.with(user: user, token: token).send_token.deliver_now
         redirect_to reset_password_path, notice: "ワンタイムパスワードを送信しました。"
       else
-        puts "[send_reset_token] failed to update token"
+        Rails.logger.error "[send_reset_token] failed to update token for user #{user.email}"
         flash.now[:alert] = "トークンの保存に失敗しました。"
         render :lost_password, status: :unprocessable_entity
       end
     else
-      puts "[send_reset_token] user not found"
+      Rails.logger.warn "[send_reset_token] user not found for email: #{params[:email]}"
       flash.now[:alert] = "そのメールアドレスは登録されていません。"
       render :lost_password, status: :unprocessable_entity
     end
   end
+
 
   def reset_password
   end
