@@ -59,14 +59,18 @@ class IndexController < ApplicationController
     user = User.find_by(email: params[:email])
     if user
       token = rand.to_s[2..7]
-      user.update(one_time_token: token)
-
-      UserMailer.with(user: user, token: token).send_token.deliver_now
-      redirect_to reset_password_path, notice: "ワンタイムパスワードを送信しました。"
+      if user.update(one_time_token: token)
+        UserMailer.with(user: user, token: token).send_token.deliver_now
+        redirect_to reset_password_path, notice: "ワンタイムパスワードを送信しました。"
+      else
+        flash.now[:alert] = "トークンの保存に失敗しました。"
+        render :lost_password, status: :unprocessable_entity
+      end
     else
       flash.now[:alert] = "そのメールアドレスは登録されていません。"
       render :lost_password, status: :unprocessable_entity
     end
+
   end
 
   def reset_password
@@ -74,6 +78,7 @@ class IndexController < ApplicationController
 
   def update_password
     user = User.find_by(email: params[:email], one_time_token: params[:token])
+    Rails.logger.debug "[update_password] user: #{user.inspect}"
     if user
       if params[:password] == params[:password_confirmation]
         user.password = params[:password]
