@@ -52,6 +52,8 @@ class IndexController < ApplicationController
   end
 
   def send_reset_token
+    Rails.logger.info "[send_reset_token] invoked!"
+    puts "[send_reset_token] invoked with #{params.inspect}"
     Rails.logger.debug "[send_reset_token] called with #{params.inspect}"
 
     user = User.find_by(email: params[:email])
