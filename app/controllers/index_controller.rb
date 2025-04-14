@@ -32,10 +32,12 @@ class IndexController < ApplicationController
     if @user.save
       redirect_to login_path, notice: "登録が完了しました。ログインしてください。"
     else
+      Rails.logger.debug "[create_user] errors: #{@user.errors.full_messages}"
       flash.now[:alert] = "入力内容に不備があります。"
       render :signup, status: :unprocessable_entity
     end
   end
+
 
 
 

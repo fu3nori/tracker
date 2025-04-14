@@ -3,6 +3,9 @@ class User < ApplicationRecord
 
   # 必須バリデーション
   validates :email, presence: true, uniqueness: { message: "は既に登録されています" }
+  validates :email, presence: true,
+            uniqueness: { case_sensitive: false, message: "は既に登録されています" },
+            format: { with: URI::MailTo::EMAIL_REGEXP, message: "は正しい形式で入力してください" }
   validates :pen_name, presence: true
   validates :password, presence: true,
             length: { in: 4..8 },
