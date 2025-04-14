@@ -52,6 +52,8 @@ class IndexController < ApplicationController
   end
 
   def send_reset_token
+    puts "[SEND_RESET_TOKEN] 🔥 Controller action triggered"
+    Rails.logger.info "[SEND_RESET_TOKEN] 🔥 Triggered with params: #{params.inspect}"
     puts "[send_reset_token] invoked!"
     Rails.logger.info "[send_reset_token] invoked!"
     Rails.logger.info "[send_reset_token] params: #{params.inspect}"
