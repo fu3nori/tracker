@@ -32,11 +32,12 @@ class IndexController < ApplicationController
     if @user.save
       redirect_to login_path, notice: "登録が完了しました。ログインしてください。"
     else
-      render :signup
+      flash.now[:alert] = "入力内容に不備があります。"
+      render :signup, status: :unprocessable_entity
     end
   end
 
-  private
+
 
   def user_params
     params.require(:user).permit(:email, :pen_name, :zip_code, :addres, :real_name, :bank, :password, :password_confirmation)
