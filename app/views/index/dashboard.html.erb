@@ -1,3 +1,28 @@
-<h1>Index#dashboard</h1>
+<!-- app/views/index/dashboard.html.erb -->
+
+<h1>ダッシュボード</h1>
 <%= render "header" %>
-<p>Find me in app/views/index/dashboard.html.erb</p>
+
+<!-- 上部スペーサー -->
+<div style="height: 140px;"><h2>メニュー</h2></div>
+
+<div style="display: flex;">
+  <!-- 左側：ユーザー情報表示エリア -->
+  <div style="flex: 1;">
+    <h2>マイダッシュボード</h2>
+    <p><strong>ID:</strong> <%= @current_user.id %></p>
+    <p><strong>ペンネーム:</strong> <%= @current_user.pen_name %></p>
+    <p><strong>ロール:</strong>
+      <%= case @current_user.role
+          when 1 then '無料ユーザー'
+          when 2 then '管理ユーザー'
+          when 3 then 'プレミアムプランユーザー'
+          when 4 then 'プロダクションプランユーザー'
+          else       '不明'
+          end %>
+    </p>
+  </div>
+
+  <!-- 右側スペーサー -->
+  <div style="width: 700px;"><h2>タスク管理</h2></div>
+</div>
