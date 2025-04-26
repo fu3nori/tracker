@@ -1,0 +1,87 @@
+<h2><%= @project.project_name %> - タスク一覧</h2>
+
+<!-- プロジェクト説明を改行反映で表示 -->
+<div class="mb-4">
+  <%= simple_format(@project.description) %>
+</div>
+
+<% if owner?(@current_user, @project) %>
+  <p class="text-success">※あなたはこのプロジェクトの <strong>オーナー</strong> です</p>
+<% else %>
+  <p class="text-muted">※あなたはこのプロジェクトのメンバーです</p>
+<% end %>
+
+<hr>
+<% if flash[:notice] %>
+  <div class="alert alert-success">
+    <%= flash[:notice] %>
+  </div>
+<% elsif flash[:alert] %>
+  <div class="alert alert-danger">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<hr>
+<h3>参加メンバー</h3>
+<div class="d-flex flex-wrap mb-3">
+  <% @members.each do |member| %>
+    <div class="badge text-dark bg-light border border-primary me-2 mb-2" style="background-color: #e6f2ff;">
+      <%= member.user.pen_name %>
+      <% if member.owner_before_type_cast.to_i == 1 %>（オーナー）<% else %>（メンバー）<% end %>
+    </div>
+  <% end %>
+</div>
+
+<hr>
+
+<% if owner?(@current_user, @project) %>
+  <%= link_to '新しいタスクを作成', new_project_project_task_path(@project), class: "btn btn-primary mb-3 me-2" %>
+  <%= link_to 'メンバーを招待', invite_project_path(@project), class: "btn custom-invite-btn mb-3" %>
+
+<% end %>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>タスク名</th>
+    <th>説明</th>
+    <th>担当者</th>
+    <th>開始日</th>
+    <th>締切日</th>
+    <th>ステータス</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @tasks.each do |task| %>
+    <tr>
+      <td><%= task.task_name %></td>
+      <td><%= simple_format(task.task_description) %></td>
+      <td><%= task.project_member.user.pen_name rescue "不明" %></td>
+      <td><%= task.start_day&.strftime('%Y-%m-%d') %></td>
+      <td><%= task.limit_day&.strftime('%Y-%m-%d') %></td>
+      <td>
+        <% case task.task_status
+           when 0 %> 未着手
+        <% when 1 %> 着手中
+        <% when 2 %> 完了
+        <% else %> 不明
+        <% end %>
+      </td>
+      <td class="d-flex">
+        <% if owner?(@current_user, @project) || task.project_member.user_id == @current_user.id %>
+          <%= link_to "編集", edit_project_project_task_path(@project.id, task.id), class: "btn btn-sm btn-secondary me-2" %>
+        <% end %>
+
+        <% if owner?(@current_user, @project) %>
+          <%= button_to "削除", force_destroy_project_project_task_path(@project.id, task.id),
+                        method: :post,
+                        data: { turbo: false, confirm: "本当に削除しますか？" },
+                        class: "btn btn-sm btn-outline-danger" %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,15 @@
+<h2>プロジェクト情報を編集</h2>
+
+<%= form_with model: @project, url: project_path(@project), method: :patch, local: true do |f| %>
+  <div class="mb-3">
+    <%= f.label :project_name, "プロジェクト名" %>
+    <%= f.text_field :project_name, class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :description, "説明" %>
+    <%= f.text_area :description, class: "form-control", required: true %>
+  </div>
+
+  <%= f.submit "更新", class: "btn btn-primary" %>
+<% end %>

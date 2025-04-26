@@ -1,0 +1,32 @@
+<h2>タスクを編集</h2>
+
+<%= form_with model: [@project, @task], local: true do |f| %>
+  <div class="mb-3">
+    <%= f.label :task_name, "タスク名" %><br>
+    <%= f.text_field :task_name, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :task_description, "説明" %><br>
+    <%= f.text_area :task_description, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :start_day, "開始日" %>
+    <%= f.date_field :start_day, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :limit_day, "締切日" %>
+    <%= f.date_field :limit_day, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :project_member_id, "担当者" %>
+    <%= f.collection_select :project_member_id, @members, :id, :pen_name_display, prompt: "選択してください", class: "form-select" %>
+  </div>
+
+  <div>
+    <%= f.submit "更新", class: "btn btn-success" %>
+  </div>
+<% end %>

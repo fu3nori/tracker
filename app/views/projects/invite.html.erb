@@ -1,0 +1,11 @@
+<h2>ユーザーを招待する</h2>
+
+<%= form_with url: invite_project_path(@project), method: :post, local: true do |f| %>
+  <div>
+    <label>招待メールアドレス</label><br>
+    <%= text_field_tag :email, nil, required: true %>
+  </div>
+  <div>
+    <%= submit_tag "招待", class: "btn btn-primary" %>
+  </div>
+<% end %>

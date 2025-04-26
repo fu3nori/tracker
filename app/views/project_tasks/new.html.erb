@@ -1,0 +1,31 @@
+<h2>新しいタスクを作成</h2>
+<%= form_with model: @task, url: project_project_tasks_path(@project), local: true do |f| %>
+  <div class="mb-3">
+    <%= f.label :task_name, "タスク名" %>
+    <%= f.text_field :task_name, required: true, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :task_description, "説明" %>
+    <%= f.text_area :task_description, required: true, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :start_day, "開始日" %>
+    <%= f.date_field :start_day, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :limit_day, "締切日" %>
+    <%= f.date_field :limit_day, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :project_member_id, "担当者" %>
+    <%= f.collection_select :project_member_id, @members, :id, :pen_name_display, prompt: "選択してください", class: "form-select" %>
+  </div>
+
+  <div>
+    <%= f.submit "作成", class: "btn btn-primary" %>
+  </div>
+<% end %>

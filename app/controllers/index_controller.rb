@@ -2,7 +2,7 @@
 class IndexController < ApplicationController
   # ダッシュボードだけログイン必須
   before_action :load_current_user, only: [:dashboard]
-  before_action :require_login,      only: [:dashboard]
+  before_action :require_login, only: [:dashboard]
 
   # ← public アクション群 start ↓
 
@@ -46,7 +46,8 @@ class IndexController < ApplicationController
   end
 
   def dashboard
-    # @current_user がセット済み
+    @project_memberships = ProjectMember.where(user_id: @current_user.id)
+    @projects = @project_memberships.map { |pm| pm.project }
   end
 
   def lost_password

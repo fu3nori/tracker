@@ -1,0 +1,4 @@
+<p><%= @inviter.pen_name %> さんからプロジェクト「<%= @project.project_name %>」に招待されました。</p>
+<p><%= @message %></p>
+<p>以下のリンクからアクセスしてください：</p>
+<p><a href="https://<%= ENV['MAIL_DOMAIN'] || 'hf-avenue.biz' %>/tracker">https://<%= ENV['MAIL_DOMAIN'] || 'hf-avenue.biz' %>/tracker</a></p>

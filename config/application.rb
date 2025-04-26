@@ -24,6 +24,11 @@ module Tracker
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
     # config.assets.paths << Rails.root.join("app/assets/stylesheets")
+    # 日本時間に設定
+    config.time_zone = 'Tokyo'
+
+    # DBに保存する時も日本時間で保存したい場合（重要）
+    config.active_record.default_timezone = :local
     config.assets.paths << Rails.root.join("app/assets/stylesheets")
   end
 end

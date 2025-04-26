@@ -1,41 +1,40 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <title><%= content_for(:title) || "Tracker for creator" %></title>
+  <title>Tracker for creator</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="description" content="クリエイターの為の無料進捗管理・契約書管理クラウドサービス">
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-  <%= yield :head %>
+  <meta name="csrf-param" content="authenticity_token" />
+  <meta name="csrf-token" content="<%= form_authenticity_token %>" />
 
-  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <!-- CSS -->
+  <%= stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload" %>
+  <link rel="stylesheet" href="/css/custom.css">
 
-  <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-  <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <link rel="icon" href="/icon.png" >
-  <link rel="apple-touch-icon" href="/icon.png">
-
-  <!-- Google Fonts: Noto Sans JP -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
 
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-
-  <!-- custom.css -->
-  <% if Rails.env.production? %>
-    <link rel="stylesheet" href="/tracker/css/custom.css">
-  <% else %>
-    <link rel="stylesheet" href="/css/custom.css">
-  <% end %>
+  <!-- Importmap -->
   <%= javascript_importmap_tags %>
-</head>
 
+  <!-- Turbo 無効化 -->
+  <script>
+      window.Turbo = { session: { drive: false } };
+  </script>
+
+  <!-- Rails UJS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@rails/ujs@7.0.6/lib/assets/compiled/rails-ujs.js"></script>
+
+
+</head>
 <body>
 <%= yield %>
 </body>
