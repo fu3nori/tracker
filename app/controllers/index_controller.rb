@@ -16,8 +16,13 @@ class IndexController < ApplicationController
   end
 
   def login
-    @user = User.new
+    if session[:user_id] && User.exists?(id: session[:user_id])
+      redirect_to dashboard_path
+    else
+      @user = User.new
+    end
   end
+
 
   def login_post
     user = User.find_by(email: params[:user][:email])

@@ -72,3 +72,22 @@ a.custom-invite-btn.btn:hover {
     color: #000000 !important;
 }
 
+.btn-custom-outline {
+    color: #000 !important; /* 黒文字 */
+    background-color: #fff !important; /* 白背景 */
+    border: 1px solid #17a2b8 !important; /* スカイブルー枠 */
+}
+
+.btn-custom-outline:hover {
+    background-color: #e0f7fa !important; /* 少し濃いスカイブルー */
+    border-color: #17a2b8 !important; /* 同じ枠 */
+    color: #000 !important; /* 黒文字維持 */
+}
+
+.project-tag {
+    background-color: #e6f2ff;
+    border: 1px solid #17a2b8;
+    padding: 0.4em 0.8em;
+    border-radius: 20px;
+    font-weight: bold;
+}

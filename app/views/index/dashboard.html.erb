@@ -1,4 +1,5 @@
-<h2>マイダッシュボード</h2>
+<h1>Tracker for creator|My dashboard</h1>
+<%= render "header" %>
 
 <p><strong>ID:</strong> <%= @current_user.id %></p>
 <p><strong>ペンネーム:</strong> <%= @current_user.pen_name %></p>
@@ -28,13 +29,13 @@
       <p>まだプロジェクトに参加していません。</p>
       <%= link_to "プロジェクトを作成", new_project_path, class: "btn btn-primary" %>
     <% else %>
-      <ul>
+      <div class="d-flex flex-wrap">
         <% @projects.each do |project| %>
-          <li>
-            <%= link_to project.project_name, project_path(project.id) %>
-          </li>
+          <div class="project-tag me-2 mb-2">
+            <%= link_to project.project_name, project_path(project.id), class: "text-dark text-decoration-none" %>
+          </div>
         <% end %>
-      </ul>
+      </div>
       <%= link_to "プロジェクトを作成", new_project_path, class: "btn btn-secondary mt-2" %>
     <% end %>
   </div>

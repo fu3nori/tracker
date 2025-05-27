@@ -1,4 +1,4 @@
-<h1>Tracker for creator|Signup</h1>
+<h1>Tracker for creator|Sign Up</h1>
 <%= render "header" %>
 <%= form_with model: @user, url: create_user_path, local: true do |f| %>
   <% if @user.errors.any? %>
@@ -44,7 +44,7 @@
 
       <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
         <%= f.label :bank, "振込先（有償案件のみ）", style: "width: 200px;" %>
-        <%= f.text_area :bank, rows: 5, class: "form-control", style: "width: 40%;" %>
+        <%= f.text_area :bank, rows: 4, class: "form-control", style: "width: 40%;" %>
         <span style="margin-left: 10px;">※任意</span>
       </div>
 
@@ -79,3 +79,4 @@
         width: 250px;
     }
 </style>
+<br><br>
