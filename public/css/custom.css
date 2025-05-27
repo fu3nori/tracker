@@ -72,3 +72,16 @@ a.custom-invite-btn.btn:hover {
     color: #000000 !important;
 }
 
+.project-tag {
+    background-color: #e6f2ff;
+    border: 1px solid #87cefa;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease-in-out;
+}
+
+.project-tag:hover {
+    background-color: #cce7ff;
+}
