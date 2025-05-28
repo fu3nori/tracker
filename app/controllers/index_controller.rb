@@ -50,7 +50,8 @@ class IndexController < ApplicationController
             project_id: invitation.project_id,
             user_id: user.id
           )
-          pm.owner ||= :member  # enumの初期値を安全にセット
+
+          pm.owner ||= ProjectMember.owners[:member]  # enum安全代入（0）
           pm.save!
 
           invitation.destroy!
@@ -68,6 +69,7 @@ class IndexController < ApplicationController
       render :login, status: :unprocessable_entity
     end
   end
+
 
 
 
