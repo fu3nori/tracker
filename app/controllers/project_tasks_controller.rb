@@ -1,4 +1,5 @@
 class ProjectTasksController < ApplicationController
+  include ProjectsHelper
   before_action :load_current_user
   before_action :require_login
   before_action :set_project
@@ -13,7 +14,25 @@ class ProjectTasksController < ApplicationController
     @task = ProjectTask.new(task_params)
     @task.project_id = @project.id
 
-    if @task.save
+    # 自分の project_member を取得
+    my_member = @project.project_members.find_by(user_id: @current_user.id)
+
+    # オーナーは誰でも作れる
+    if owner?(@current_user, @project)
+      save_task(@task)
+      return
+    end
+
+    # メンバーの場合 → 自分の task しか作れない
+    if @task.project_member_id == my_member&.id
+      save_task(@task)
+    else
+      flash[:alert] = "他のメンバーのタスクは作成できません。"
+      redirect_to project_path(@project)
+    end
+  end
+  def save_task(task)
+    if task.save
       redirect_to project_path(@project), notice: "タスクを作成しました。"
     else
       @members = @project.project_members.includes(:user)
@@ -21,6 +40,7 @@ class ProjectTasksController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
+
 
   def edit
     @task = ProjectTask.find(params[:id])

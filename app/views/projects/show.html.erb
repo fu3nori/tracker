@@ -36,11 +36,18 @@
 
 <hr>
 
+
+
+<% my_member = @project.project_members.find_by(user_id: @current_user.id) %>
+
 <% if owner?(@current_user, @project) %>
   <%= link_to '新しいタスクを作成', new_project_project_task_path(@project), class: "btn btn-primary mb-3 me-2" %>
   <%= link_to 'メンバーを招待', invite_project_path(@project), class: "btn custom-invite-btn mb-3" %>
-
+<% elsif my_member.present? %>
+  <!-- メンバー自身にもタスク作成ボタンを表示 -->
+  <%= link_to '新しいタスクを作成', new_project_project_task_path(@project), class: "btn btn-primary mb-3 me-2" %>
 <% end %>
+
 
 <table class="table table-striped">
   <thead>

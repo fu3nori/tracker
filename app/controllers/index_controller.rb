@@ -28,6 +28,16 @@ class IndexController < ApplicationController
     user = User.find_by(email: params[:user][:email])
     if user&.authenticate(params[:user][:password])
       session[:user_id] = user.id
+      Invitation.where(email: user.email).find_each do |invitation|
+        unless ProjectMember.exists?(project_id: invitation.project_id, user_id: user.id)
+          ProjectMember.create!(
+            project_id: invitation.project_id,
+            user_id: user.id,
+            owner: 0
+          )
+        end
+        invitation.destroy
+      end
       redirect_to dashboard_path
     else
       flash.now[:alert] = "メールアドレスかパスワードが間違っています。"

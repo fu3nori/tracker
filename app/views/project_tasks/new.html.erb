@@ -21,10 +21,21 @@
     <%= f.date_field :limit_day, class: "form-control" %>
   </div>
 
+  <% my_member = @project.project_members.find_by(user_id: @current_user.id) %>
+
   <div class="mb-3">
     <%= f.label :project_member_id, "担当者" %>
-    <%= f.collection_select :project_member_id, @members, :id, :pen_name_display, prompt: "選択してください", class: "form-select" %>
+
+    <% if owner?(@current_user, @project) %>
+      <%= f.collection_select :project_member_id, @members, :id, :pen_name_display, prompt: "選択してください", class: "form-select" %>
+    <% elsif my_member.present? %>
+      <%= f.hidden_field :project_member_id, value: my_member.id %>
+      <p class="form-text text-muted">※このタスクはあなた（<%= my_member.user.pen_name %>）に割り当てられます</p>
+    <% else %>
+      <p class="text-danger">タスクの作成権限がありません。</p>
+    <% end %>
   </div>
+
 
   <div>
     <%= f.submit "作成", class: "btn btn-primary" %>
