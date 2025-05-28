@@ -27,6 +27,7 @@ class IndexController < ApplicationController
   def login_post
     begin
       user_params = params.require(:user).permit(:email, :password)
+      Rails.logger.info "[DEBUG] user_params: #{user_params.inspect}"
     rescue => e
       Rails.logger.error "[login_post] パラメータ構文エラー: #{e.message}"
       Rails.logger.error "[login_post] params[:user]: #{params[:user].inspect}"
@@ -35,6 +36,7 @@ class IndexController < ApplicationController
       render :login, status: :unprocessable_entity
       return
     end
+
 
     user = User.find_by(email: user_params[:email])
     if user&.authenticate(user_params[:password])
