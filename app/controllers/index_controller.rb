@@ -25,20 +25,21 @@ class IndexController < ApplicationController
 
 
   def login_post
-    unless params[:user].is_a?(ActionController::Parameters)
-      flash.now[:alert] = "不正なリクエストです。再度お試しください。"
+    begin
+      user_params = params.require(:user).permit(:email, :password)
+    rescue => e
+      Rails.logger.error "[login_post] Parameter error: #{e.message}"
+      Rails.logger.error "[login_post] Raw params[:user]: #{params[:user].inspect}"
+      flash.now[:alert] = "ログインフォームの形式が正しくありません。"
       @user = User.new
       render :login, status: :unprocessable_entity
       return
     end
 
-    user_params = params.require(:user).permit(:email, :password)
-
     user = User.find_by(email: user_params[:email])
     if user&.authenticate(user_params[:password])
       session[:user_id] = user.id
 
-      # 招待処理
       Invitation.where(email: user.email).find_each do |invitation|
         unless ProjectMember.exists?(project_id: invitation.project_id, user_id: user.id)
           ProjectMember.create!(
@@ -57,6 +58,7 @@ class IndexController < ApplicationController
       render :login, status: :unprocessable_entity
     end
   end
+
 
 
   def signup
