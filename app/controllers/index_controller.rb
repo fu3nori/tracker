@@ -28,9 +28,9 @@ class IndexController < ApplicationController
     begin
       user_params = params.require(:user).permit(:email, :password)
     rescue => e
-      Rails.logger.error "[login_post] Parameter error: #{e.message}"
-      Rails.logger.error "[login_post] Raw params[:user]: #{params[:user].inspect}"
-      flash.now[:alert] = "ログインフォームの形式が正しくありません。"
+      Rails.logger.error "[login_post] パラメータ構文エラー: #{e.message}"
+      Rails.logger.error "[login_post] params[:user]: #{params[:user].inspect}"
+      flash.now[:alert] = "ログインフォームに問題があります。"
       @user = User.new
       render :login, status: :unprocessable_entity
       return
@@ -58,6 +58,7 @@ class IndexController < ApplicationController
       render :login, status: :unprocessable_entity
     end
   end
+
 
 
 
