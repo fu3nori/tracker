@@ -27,6 +27,9 @@ class IndexController < ApplicationController
   def login_post
     begin
       user_params = params.require(:user).permit(:email, :password)
+      Rails.logger.info "[DEBUG] raw params[:user]: #{params[:user].inspect}"
+      Rails.logger.info "[DEBUG] user_params[:email]: #{user_params[:email].inspect}"
+      Rails.logger.info "[DEBUG] user_params.class: #{user_params.class}"
       Rails.logger.info "[DEBUG] user_params: #{user_params.inspect}"
     rescue => e
       Rails.logger.error "[login_post] パラメータ構文エラー: #{e.message}"
