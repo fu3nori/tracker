@@ -24,12 +24,15 @@ class IndexController < ApplicationController
   end
 
 
+
+
   def login_post
     begin
       user_params = params.require(:user).permit(:email, :password)
       user_email = user_params[:email].strip.downcase
     rescue => e
       Rails.logger.error "[login_post] パラメータ構文エラー: #{e.class} - #{e.message}"
+      Rails.logger.error (e.backtrace&.join("\n") || "No backtrace available")
       flash.now[:alert] = "ログインフォームに問題があります。"
       @user = User.new
       render :login, status: :unprocessable_entity
@@ -53,7 +56,9 @@ class IndexController < ApplicationController
           invitation.destroy
         rescue => e
           Rails.logger.error "[login_post] ProjectMember 作成エラー: #{e.class} - #{e.message}"
-          Rails.logger.error e.backtrace.join("\n")
+          Rails.logger.error (e.backtrace&.join("\n") || "No backtrace available")
+          # invitation.destroy を next の前に移す場合も検討可能
+          next
         end
       end
 
@@ -64,7 +69,6 @@ class IndexController < ApplicationController
       render :login, status: :unprocessable_entity
     end
   end
-
 
 
 
