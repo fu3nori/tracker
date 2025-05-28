@@ -27,6 +27,14 @@ class IndexController < ApplicationController
   def login_post
     user_params = params[:user]
 
+    unless user_params.is_a?(ActionController::Parameters)
+      flash.now[:alert] = "不正なリクエストです。再度お試しください。"
+      @user = User.new
+      render :login, status: :unprocessable_entity
+      return
+    end
+
+
     if user_params.blank?
       flash.now[:alert] = "不正なリクエストです"
       @user = User.new
