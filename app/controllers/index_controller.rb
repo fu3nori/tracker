@@ -25,9 +25,20 @@ class IndexController < ApplicationController
 
 
   def login_post
-    user = User.find_by(email: params[:user][:email])
-    if user&.authenticate(params[:user][:password])
+    user_params = params[:user]
+
+    if user_params.blank?
+      flash.now[:alert] = "不正なリクエストです"
+      @user = User.new
+      render :login, status: :unprocessable_entity
+      return
+    end
+
+    user = User.find_by(email: user_params[:email])
+    if user&.authenticate(user_params[:password])
       session[:user_id] = user.id
+
+      # 招待処理
       Invitation.where(email: user.email).find_each do |invitation|
         unless ProjectMember.exists?(project_id: invitation.project_id, user_id: user.id)
           ProjectMember.create!(
@@ -38,13 +49,15 @@ class IndexController < ApplicationController
         end
         invitation.destroy
       end
+
       redirect_to dashboard_path
     else
       flash.now[:alert] = "メールアドレスかパスワードが間違っています。"
-      @user = User.new(email: params[:user][:email])
+      @user = User.new(email: user_params[:email])
       render :login, status: :unprocessable_entity
     end
   end
+
 
   def signup
     @user = User.new
