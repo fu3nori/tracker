@@ -50,8 +50,7 @@ class IndexController < ApplicationController
             project_id: invitation.project_id,
             user_id: user.id
           )
-
-          pm.owner ||= ProjectMember.owners[:member]  # enum安全代入（0）
+          pm.owner ||= 0  # ← enum の整数値で代入（:member = 0）
           pm.save!
 
           invitation.destroy!
