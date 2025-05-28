@@ -41,7 +41,7 @@ class IndexController < ApplicationController
     end
 
 
-    user = User.find_by(email: user_params[:email])
+    user = User.find_by(email: user_params[:email].strip.downcase)
     if user&.authenticate(user_params[:password])
       session[:user_id] = user.id
 
