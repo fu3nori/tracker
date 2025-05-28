@@ -27,6 +27,7 @@ class IndexController < ApplicationController
 
 
   def login_post
+    Rails.logger.debug "[login_post] params[:user] = #{params[:user].inspect}"
     begin
       user_params = params.require(:user).permit(:email, :password)
       user_email = user_params[:email].strip.downcase
