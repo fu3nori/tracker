@@ -27,42 +27,44 @@ class IndexController < ApplicationController
   def login_post
     begin
       user_params = params.require(:user).permit(:email, :password)
-      Rails.logger.info "[DEBUG] raw params[:user]: #{params[:user].inspect}"
-      Rails.logger.info "[DEBUG] user_params[:email]: #{user_params[:email].to_s}"
-      Rails.logger.info "[DEBUG] user_params.class: #{user_params.class}"
-      Rails.logger.info "[DEBUG] user_params: #{user_params.inspect}"
+      user_email = user_params[:email].strip.downcase
     rescue => e
-      Rails.logger.error "[login_post] パラメータ構文エラー: #{e.message}"
-      Rails.logger.error "[login_post] params[:user]: #{params[:user].inspect}"
+      Rails.logger.error "[login_post] パラメータ構文エラー: #{e.class} - #{e.message}"
       flash.now[:alert] = "ログインフォームに問題があります。"
       @user = User.new
       render :login, status: :unprocessable_entity
       return
     end
 
+    user = User.find_by(email: user_email)
 
-    user = User.find_by(email: user_params[:email].strip.downcase)
     if user&.authenticate(user_params[:password])
       session[:user_id] = user.id
 
       Invitation.where(email: user.email).find_each do |invitation|
-        unless ProjectMember.exists?(project_id: invitation.project_id, user_id: user.id)
-          ProjectMember.create!(
-            project_id: invitation.project_id,
-            user_id: user.id,
-            owner: 0
-          )
+        begin
+          unless ProjectMember.exists?(project_id: invitation.project_id, user_id: user.id)
+            ProjectMember.create!(
+              project_id: invitation.project_id,
+              user_id: user.id,
+              owner: 0
+            )
+          end
+          invitation.destroy
+        rescue => e
+          Rails.logger.error "[login_post] ProjectMember 作成エラー: #{e.class} - #{e.message}"
+          Rails.logger.error e.backtrace.join("\n")
         end
-        invitation.destroy
       end
 
       redirect_to dashboard_path
     else
       flash.now[:alert] = "メールアドレスかパスワードが間違っています。"
-      @user = User.new(email: user_params[:email])
+      @user = User.new(email: user_email)
       render :login, status: :unprocessable_entity
     end
   end
+
 
 
 
