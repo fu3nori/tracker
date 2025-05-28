@@ -46,12 +46,12 @@ class IndexController < ApplicationController
 
       Invitation.where(email: user.email).find_each do |invitation|
         begin
-          ProjectMember.find_or_create_by!(
+          pm = ProjectMember.find_or_initialize_by(
             project_id: invitation.project_id,
             user_id: user.id
-          ) do |pm|
-            pm.owner = :member  # ←ここで安全にenumを指定
-          end
+          )
+          pm.owner ||= :member  # enumの初期値を安全にセット
+          pm.save!
 
           invitation.destroy!
         rescue => e
@@ -68,6 +68,7 @@ class IndexController < ApplicationController
       render :login, status: :unprocessable_entity
     end
   end
+
 
 
 
