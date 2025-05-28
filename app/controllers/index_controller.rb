@@ -29,6 +29,9 @@ class IndexController < ApplicationController
   def login_post
     Rails.logger.debug "[login_post] params[:user] = #{params[:user].inspect}"
     begin
+      unless params[:user].is_a?(ActionController::Parameters)
+        raise ArgumentError, "params[:user] が不正です: #{params[:user].inspect}"
+      end
       user_params = params.require(:user).permit(:email, :password)
       user_email = user_params[:email].strip.downcase
       Rails.logger.debug "全パラメータ: #{params.inspect}"
