@@ -30,6 +30,10 @@ class IndexController < ApplicationController
     begin
       user_params = params.require(:user).permit(:email, :password)
       user_email = user_params[:email].strip.downcase
+      Rails.logger.debug "全パラメータ: #{params.inspect}"
+      Rails.logger.debug "params[:user]: #{params[:user].inspect}"
+      Rails.logger.debug "params[:user].class: #{params[:user].class}"
+
     rescue => e
       Rails.logger.error "[login_post] パラメータ構文エラー: #{e.class} - #{e.message}"
       Rails.logger.error (e.backtrace&.join("\n") || "No backtrace available")
