@@ -46,18 +46,17 @@ class IndexController < ApplicationController
 
       Invitation.where(email: user.email).find_each do |invitation|
         begin
-          unless ProjectMember.exists?(project_id: invitation.project_id, user_id: user.id)
-            ProjectMember.create!(
-              project_id: invitation.project_id,
-              user_id: user.id,
-              owner: 0
-            )
+          ProjectMember.find_or_create_by!(
+            project_id: invitation.project_id,
+            user_id: user.id
+          ) do |pm|
+            pm.owner = :member  # ←ここで安全にenumを指定
           end
-          invitation.destroy
+
+          invitation.destroy!
         rescue => e
           Rails.logger.error "[login_post] ProjectMember 作成エラー: #{e.class} - #{e.message}"
           Rails.logger.error (e.backtrace&.join("\n") || "No backtrace available")
-          # invitation.destroy を next の前に移す場合も検討可能
           next
         end
       end
