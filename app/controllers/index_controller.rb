@@ -27,6 +27,7 @@ class IndexController < ApplicationController
 
 
   def login_post
+    Rails.logger.debug "params = #{params.inspect}"
     Rails.logger.debug "[params] = #{params.inspect}"
     Rails.logger.debug "[login_post] params[:user] = #{params[:user].inspect}"
     begin
