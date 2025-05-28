@@ -70,6 +70,6 @@ class ProjectTasksController < ApplicationController
   end
 
   def task_params
-    params.require(:project_task).permit(:task_name, :task_description, :start_day, :kimit_day, :project_member_id)
+    params.require(:project_task).permit(:task_name, :task_description, :start_day, :limit_day, :project_member_id, :task_status)
   end
 end

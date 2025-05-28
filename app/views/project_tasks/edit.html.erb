@@ -1,3 +1,4 @@
+
 <h2>タスクを編集</h2>
 
 <%= form_with model: [@project, @task], local: true do |f| %>
@@ -19,6 +20,11 @@
   <div class="mb-3">
     <%= f.label :limit_day, "締切日" %>
     <%= f.date_field :limit_day, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :task_status, "ステータス" %><br>
+    <%= f.select :task_status, options_for_select([["未着手", 0], ["着手中", 1], ["完了", 2]], @task.task_status), {}, class: "form-select" %>
   </div>
 
   <div class="mb-3">
