@@ -63,3 +63,7 @@
 !/public/js/
 !/public/js/*
 
+config/database.yml
+.env
+config
+/config/database.yml
